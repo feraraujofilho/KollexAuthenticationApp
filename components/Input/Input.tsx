@@ -7,6 +7,7 @@ import { INPUT_BLUR, INPUT_CHANGE } from '../../types/Actions'
 import InputProps from './InputProps'
 import zxcvbn from 'zxcvbn'
 import { getPasswordStrengthScore } from '../../helpers/helpers'
+import Colors from '../../constants/Colors'
 
 const Input: FC<InputProps> = ({
 	id,
@@ -14,7 +15,7 @@ const Input: FC<InputProps> = ({
 	value,
 	onChangeHandler,
 	email,
-	password,
+	passwordCreation,
 	required,
 	errorText,
 	...props
@@ -33,7 +34,7 @@ const Input: FC<InputProps> = ({
 		if (required && text.length === 0) {
 			isValid = false
 		}
-		if (password) {
+		if (passwordCreation) {
 			let score = getPasswordStrengthScore(text)
 			if (score < 3) {
 				isValid = false
@@ -69,22 +70,28 @@ const Input: FC<InputProps> = ({
 const styles = StyleSheet.create({
 	formControl: {
 		width: '100%',
+		marginTop: 5,
 	},
 	label: {
-		fontFamily: 'open-sans-bold',
+		fontFamily: 'montserrat-bold',
 		marginVertical: 8,
+		fontSize: 12,
 	},
 	input: {
-		paddingHorizontal: 2,
-		paddingVertical: 5,
-		borderBottomColor: '#ccc',
-		borderBottomWidth: 1,
+		paddingHorizontal: 20,
+		paddingVertical: 0,
+		borderColor: '#b8babf',
+		borderWidth: 0.5,
+		height: 50,
+		borderRadius: 10,
+		fontSize: 16,
+		fontFamily: 'montserrat-light',
 	},
 	errorContainer: {
-		marginVertical: 5,
+		marginTop: 5,
 	},
 	errorText: {
-		fontFamily: 'open-sans',
+		fontFamily: 'montserrat-light',
 		color: 'red',
 		fontSize: 13,
 	},

@@ -1,20 +1,27 @@
 import React, { FC, useState } from 'react'
 import {
+	ActivityIndicator,
+	Alert,
 	Button,
 	StyleSheet,
-	Text,
-	TextInput,
-	TouchableOpacity,
 	View,
 } from 'react-native'
-import Input from '../components/Input/Input'
-import AuthInterface from '../types/AuthInterface'
+import { useDispatch } from 'react-redux'
+import { login } from '../../store/auth/authActions'
+import AuthInterface from '../../types/AuthInterface'
+import Input from '../Input/Input'
+import SubmitButton from '../SubmitButton/SubmitButton'
+import LoginFormProps from './LoginFormProps'
 
-const Login: FC = ({ navigation }) => {
+const LoginForm: FC<LoginFormProps> = ({ navigation }) => {
+	const [isLoading, setIsLoading] = useState(false)
+
 	const [authentication, setAuthentication] = useState<AuthInterface>({
 		email: '',
 		password: '',
 	})
+
+	const dispatch = useDispatch()
 
 	const handleChange = (id: string, text: string) => {
 		setAuthentication({
@@ -23,8 +30,20 @@ const Login: FC = ({ navigation }) => {
 		})
 	}
 
+	const submitHandler = async () => {
+		setIsLoading(true)
+		try {
+			await dispatch(login(authentication.email, authentication.password))
+			navigation.navigate('Home')
+			setIsLoading(false)
+		} catch (err) {
+			Alert.alert('An Error Ocurred!', err.message, [{ text: 'Okay' }])
+			setIsLoading(false)
+		}
+	}
+
 	return (
-		<View style={styles.main}>
+		<View>
 			<Input
 				id="email"
 				label="E-mail"
@@ -39,28 +58,18 @@ const Login: FC = ({ navigation }) => {
 				value={authentication.password}
 				onChangeHandler={handleChange}
 				errorText="Please enter a valid password."
-				password
 				secureTextEntry
 			/>
-			<Button title="Login" onPress={() => {}} />
-			<View>
-				<Text>
-					I am a new user,
-					<TouchableOpacity onPress={() => navigation.navigate('Signup')}>
-						<Text>Signup</Text>
-					</TouchableOpacity>
-				</Text>
-			</View>
+			{isLoading ? (
+				<ActivityIndicator size="small" color="blue" />
+			) : (
+				<SubmitButton onPressFunction={submitHandler} label="Login" />
+			)}
 		</View>
 	)
 }
 
 const styles = StyleSheet.create({
-	main: {
-		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center',
-	},
 	formControl: {
 		width: '100%',
 	},
@@ -84,4 +93,4 @@ const styles = StyleSheet.create({
 	},
 })
 
-export default Login
+export default LoginForm

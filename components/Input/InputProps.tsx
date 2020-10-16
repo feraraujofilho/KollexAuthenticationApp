@@ -6,7 +6,7 @@ export default interface InputProps extends TextInputProps {
 	value?: string
 	onChangeHandler: (id: string, text: string, isValid: boolean) => void
 	email?: boolean
-	password?: boolean
+	passwordCreation?: boolean
 	errorText?: string
 	required?: boolean
 }

@@ -3,7 +3,10 @@ import { StyleSheet, Text, View } from 'react-native'
 import { getBarColor } from '../../helpers/helpers'
 import StrengthPasswordBarProps from './StrengthPasswordBarProps'
 
-const StrengthPasswordBar: FC<StrengthPasswordBarProps> = ({ score }) => {
+const StrengthPasswordBar: FC<StrengthPasswordBarProps> = ({
+	score,
+	...props
+}) => {
 	let text
 	if (score <= 1) {
 		text = 'Too weak'
@@ -25,7 +28,10 @@ const StrengthPasswordBar: FC<StrengthPasswordBarProps> = ({ score }) => {
 }
 
 const styles = StyleSheet.create({
-	main: { alignSelf: 'flex-end' },
+	main: {
+		alignSelf: 'flex-end',
+		marginTop: 5,
+	},
 })
 
 export default StrengthPasswordBar

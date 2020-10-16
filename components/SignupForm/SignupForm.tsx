@@ -1,14 +1,30 @@
 import React, { FC, useCallback, useReducer, useState } from 'react'
-import { Alert, Button, ScrollView, StyleSheet, Text, View } from 'react-native'
-import { TouchableOpacity } from 'react-native-gesture-handler'
-import Input from '../components/Input/Input'
-import StrengthPasswordBar from '../components/StrengthPasswordBar/StrengthPasswordBar'
-import { getPasswordStrengthScore } from '../helpers/helpers'
-import { formReducer } from '../reducers/FormReducer'
-import { INPUT_CHANGE } from '../types/Actions'
+import {
+	ActivityIndicator,
+	Alert,
+	Button,
+	ScrollView,
+	StyleSheet,
+	Text,
+	TouchableOpacity,
+	View,
+} from 'react-native'
+import { useDispatch } from 'react-redux'
+import Input from '../Input/Input'
+import StrengthPasswordBar from '../StrengthPasswordBar/StrengthPasswordBar'
+import { getPasswordStrengthScore } from '../../helpers/helpers'
+import { formReducer } from '../../reducers/FormReducer'
+import { INPUT_CHANGE } from '../../types/Actions'
+import { signUp } from '../../store/auth/authActions'
+import { createUser } from '../../store/user/userActions'
+import SignupFormProps from './SignupFormProps'
+import Colors from '../../constants/Colors'
+import SubmitButton from '../SubmitButton/SubmitButton'
 
-const Signup: FC = ({ navigation }) => {
-	const [signupState, dispatch] = useReducer(formReducer, {
+const SignupForm: FC<SignupFormProps> = ({ navigation }) => {
+	const [isLoading, setIsLoading] = useState(false)
+
+	const [signupState, signupStateDispatch] = useReducer(formReducer, {
 		inputValues: {
 			firstName: '',
 			lastName: '',
@@ -26,16 +42,35 @@ const Signup: FC = ({ navigation }) => {
 		isFormValid: false,
 	})
 
+	const dispatch = useDispatch()
+
 	const [scorePassword, setScorePassword] = useState(0)
 
-	const handleFormSubmit = () => {
+	const handleFormSubmit = async () => {
 		if (!signupState.isFormValid) {
 			Alert.alert('Missing required fields', 'Please fill the fields with * ', [
 				{ text: 'Okay' },
 			])
 			return
 		}
-		console.log(signupState.inputValues)
+		setIsLoading(true)
+
+		const {
+			firstName,
+			lastName,
+			email,
+			phoneNumber,
+			password,
+		} = signupState.inputValues
+		try {
+			await dispatch(signUp(email, password))
+			await dispatch(createUser(firstName, lastName, email, phoneNumber))
+			setIsLoading(false)
+			navigation.navigate('Home')
+		} catch (err) {
+			Alert.alert('An Error Ocurred!', err.message, [{ text: 'Okay' }])
+			setIsLoading(false)
+		}
 	}
 
 	const handleInput = useCallback(
@@ -43,7 +78,7 @@ const Signup: FC = ({ navigation }) => {
 			if (id === 'password') {
 				setScorePassword(getPasswordStrengthScore(text))
 			}
-			dispatch({
+			signupStateDispatch({
 				type: INPUT_CHANGE,
 				value: text,
 				inputIdentifier: id,
@@ -93,18 +128,15 @@ const Signup: FC = ({ navigation }) => {
 					onChangeHandler={handleInput}
 					errorText="Please enter a valid password."
 					required
+					passwordCreation
 					secureTextEntry
 				/>
 				<StrengthPasswordBar score={scorePassword} />
-				<Button title="Sign Up" onPress={handleFormSubmit} />
-			</View>
-			<View>
-				<Text>
-					I have an account,
-					<TouchableOpacity onPress={() => navigation.navigate('Login')}>
-						<Text>Login</Text>
-					</TouchableOpacity>
-				</Text>
+				{isLoading ? (
+					<ActivityIndicator size="small" color="blue" />
+				) : (
+					<SubmitButton onPressFunction={handleFormSubmit} label="Sign Up" />
+				)}
 			</View>
 		</ScrollView>
 	)
@@ -116,6 +148,20 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 	},
+	buttonContainer: {
+		width: '100%',
+		marginTop: 20,
+		alignItems: 'center',
+		justifyContent: 'center',
+		backgroundColor: Colors.primary,
+		height: 50,
+		borderRadius: 10,
+	},
+	buttonText: {
+		fontFamily: 'montserrat-bold',
+		color: Colors.accent,
+		fontSize: 16,
+	},
 })
 
-export default Signup
+export default SignupForm
