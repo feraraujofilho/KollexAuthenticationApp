@@ -1,5 +1,6 @@
 import React, { FC } from 'react'
 import {
+	Image,
 	ScrollView,
 	StyleSheet,
 	Text,
@@ -16,6 +17,10 @@ import Colors from '../constants/Colors'
 const SignupScreen: FC = ({ navigation }) => {
 	return (
 		<View style={styles.main}>
+			<Image
+				style={{ width: 200, height: 40, alignSelf: 'center' }}
+				source={require('../assets/kollexlogo.png')}
+			/>
 			<HeadingContainer
 				heading1="Create Account,"
 				heading2="Sign up to get started!"
@@ -35,6 +40,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: 'space-between',
 		padding: 40,
+		paddingTop: 80
 	},
 	headerContainer: {
 		paddingTop: 70,

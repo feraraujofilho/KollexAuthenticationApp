@@ -3,6 +3,7 @@ import {
 	ActivityIndicator,
 	Alert,
 	Button,
+	Image,
 	StyleSheet,
 	Text,
 	TextInput,
@@ -20,6 +21,10 @@ import AuthInterface from '../types/AuthInterface'
 const LoginScreen: FC = ({ navigation }) => {
 	return (
 		<View style={styles.main}>
+			<Image
+				style={{ width: 250, height: 40, alignSelf: 'center' }}
+				source={require('../assets/kollexlogo.png')}
+			/>
 			<HeadingContainer heading1="Welcome," heading2="Sign in to continue!" />
 			<LoginForm navigation={navigation} />
 			<AuthFooter
@@ -35,6 +40,7 @@ const styles = StyleSheet.create({
 	main: {
 		flex: 1,
 		justifyContent: 'space-between',
+		paddingTop: 100,
 		padding: 40,
 	},
 	formControl: {

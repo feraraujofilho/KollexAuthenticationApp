@@ -15,7 +15,8 @@ const HeadingContainer: FC<HeaderContainerProps> = ({ heading1, heading2 }) => {
 
 const styles = StyleSheet.create({
 	headerContainer: {
-		paddingTop: 70,
+		alignItems: 'center',
+		paddingTop: 20,
 		paddingBottom: 50,
 		paddingHorizontal: 30,
 	},
