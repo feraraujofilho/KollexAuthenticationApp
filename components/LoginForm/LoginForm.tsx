@@ -34,7 +34,7 @@ const LoginForm: FC<LoginFormProps> = ({ navigation }) => {
 		setIsLoading(true)
 		try {
 			await dispatch(login(authentication.email, authentication.password))
-			navigation.navigate('Home')
+			/* navigation.navigate('Home') */
 			setIsLoading(false)
 		} catch (err) {
 			Alert.alert('An Error Ocurred!', err.message, [{ text: 'Okay' }])
