@@ -1,5 +1,6 @@
+import { UserInterface } from './../user/userTypes';
+import { createUser, getUser } from './../user/userActions';
 import { AUTHENTICATE, LOGOUT } from './authTypes';
-import { Dispatch } from "redux"
 import AsyncStorage from '@react-native-community/async-storage';
 
 let timer: number;
@@ -15,7 +16,8 @@ export const authenticate = (userId: string, token: string, expiryTime: number) 
     }
 }
 
-export const signUp = (email: string, password: string) => {
+export const signUpAndSave = (user: UserInterface) => {
+    const { email, password } = user
     return async (dispatch: any) => {
         // for test purposes I will keep the key in the link, however it should be move into an env file when in development and production
         const response = await fetch("https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCeslVPBytVBFia6mFv0ISARuDhMoq7-tU",
@@ -44,8 +46,10 @@ export const signUp = (email: string, password: string) => {
         }
 
         dispatch(authenticate(resData.localId, resData.idToken, parseInt(resData.expiresIn) * 1000))
+        dispatch(createUser({ ...user, authId: resData.localId }))
         const expirationDate = new Date(new Date().getTime() + parseInt(resData.expiresIn) * 1000)
         saveDataToStorage(resData.idToken, resData.localId, expirationDate)
+
 
     }
 }
@@ -81,6 +85,7 @@ export const login = (email: string, password: string) => {
         }
 
         dispatch(authenticate(resData.localId, resData.idToken, parseInt(resData.expiresIn) * 1000))
+        dispatch(getUser(resData.localId))
         const expirationDate = new Date(new Date().getTime() + parseInt(resData.expiresIn) * 1000)
         saveDataToStorage(resData.idToken, resData.localId, expirationDate)
 

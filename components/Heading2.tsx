@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text } from 'react-native'
 
 const Heading2: FC = ({ children }) => {
 	return <Text style={styles.main}>{children}</Text>

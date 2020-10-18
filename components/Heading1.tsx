@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text } from 'react-native'
 import Colors from '../constants/Colors'
 
 const Heading1: FC = ({ children }) => {

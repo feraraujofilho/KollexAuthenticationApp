@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity } from 'react-native'
 import Colors from '../../constants/Colors'
 import SubmitButtonProps from './SubmitButtonProps'
 

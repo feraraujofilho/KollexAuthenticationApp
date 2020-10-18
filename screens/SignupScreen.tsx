@@ -1,38 +1,42 @@
-import React, { FC } from 'react'
-import {
-	Image,
-	ScrollView,
-	StyleSheet,
-	Text,
-	TouchableOpacity,
-	View,
-} from 'react-native'
+import React from 'react'
+import { Image, StyleSheet, View } from 'react-native'
 import AuthFooter from '../components/AuthFooter/AuthFooter'
-import Heading1 from '../components/Heading1'
-import Heading2 from '../components/Heading2'
 import HeadingContainer from '../components/HeadingsContainer/HeadingsContainer'
-import LoginForm from '../components/SignupForm/SignupForm'
+import SignupForm from '../components/SignupForm/SignupForm'
 import Colors from '../constants/Colors'
+import {
+	NavigationScreenComponent,
+	NavigationStackScreenOptions,
+} from 'react-navigation'
+import { ScrollView } from 'react-native-gesture-handler'
 
-const SignupScreen: FC = ({ navigation }) => {
+const SignupScreen: NavigationScreenComponent<{}> = ({ navigation }) => {
 	return (
 		<View style={styles.main}>
-			<Image
-				style={{ width: 200, height: 40, alignSelf: 'center' }}
-				source={require('../assets/kollexlogo.png')}
-			/>
-			<HeadingContainer
-				heading1="Create Account,"
-				heading2="Sign up to get started!"
-			/>
-			<LoginForm navigation={navigation} />
-			<AuthFooter
-				text="I already have an account,"
-				linkText="Login"
-				onPress={() => navigation.navigate('Login')}
-			/>
+			<ScrollView showsVerticalScrollIndicator={false}>
+				<Image
+					style={{ width: 200, height: 40, alignSelf: 'center' }}
+					source={require('../assets/kollexlogo.png')}
+				/>
+				<HeadingContainer
+					heading1="Create Account,"
+					heading2="Sign up to get started!"
+				/>
+				<SignupForm navigation={navigation} />
+				<AuthFooter
+					text="I already have an account,"
+					linkText="Login"
+					onPress={() => navigation.navigate('Login')}
+				/>
+			</ScrollView>
 		</View>
 	)
+}
+
+SignupScreen.navigationOptions = (): NavigationStackScreenOptions => {
+	return {
+		headerLeft: null,
+	}
 }
 
 const styles = StyleSheet.create({
@@ -40,7 +44,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: 'space-between',
 		padding: 40,
-		paddingTop: 80
+		paddingTop: 80,
 	},
 	headerContainer: {
 		paddingTop: 70,

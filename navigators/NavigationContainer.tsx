@@ -1,9 +1,9 @@
-import { NavigationActions } from '@react-navigation/compat'
 import React, { useEffect, useRef } from 'react'
 import { useSelector } from 'react-redux'
-import MainNavigator from './MainNavigator'
+import AppNavigator from './AppNavigator'
+import { NavigationActions } from 'react-navigation'
 
-const NavigationContainer = (props) => {
+const NavigationContainer = () => {
 	const navRef = useRef()
 
 	const isAuth = useSelector((state) => !!state.authState.token)
@@ -17,7 +17,7 @@ const NavigationContainer = (props) => {
 		}
 	}, [isAuth])
 
-	return <MainNavigator ref={navRef} />
+	return <AppNavigator ref={navRef} />
 }
 
 export default NavigationContainer

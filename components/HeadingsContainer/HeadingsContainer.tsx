@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import Heading1 from '../../components/Heading1'
 import Heading2 from '../../components/Heading2'
 import { HeaderContainerProps } from './HeadingsContainerProps'

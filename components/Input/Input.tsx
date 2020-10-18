@@ -1,13 +1,11 @@
-import React, { FC, useReducer, useState } from 'react'
+import React, { FC, useReducer } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { TextInput } from 'react-native-gesture-handler'
 import validator from 'validator'
 import { inputReducer } from '../../reducers/InputReducer'
 import { INPUT_BLUR, INPUT_CHANGE } from '../../types/Actions'
 import InputProps from './InputProps'
-import zxcvbn from 'zxcvbn'
 import { getPasswordStrengthScore } from '../../helpers/helpers'
-import Colors from '../../constants/Colors'
 
 const Input: FC<InputProps> = ({
 	id,

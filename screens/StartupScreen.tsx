@@ -3,6 +3,7 @@ import React, { FC, useEffect } from 'react'
 import { ActivityIndicator, StyleSheet, View } from 'react-native'
 import { useDispatch } from 'react-redux'
 import { authenticate } from '../store/auth/authActions'
+import { getUser } from '../store/user/userActions'
 
 const StartupScreen: FC = ({ navigation }) => {
 	const dispatch = useDispatch()
@@ -26,8 +27,9 @@ const StartupScreen: FC = ({ navigation }) => {
 
 			const expirationTime = expirationDate.getTime() - new Date().getTime()
 
-			navigation.navigate('Shop')
+			navigation.navigate('Home')
 			dispatch(authenticate(userId, token, expirationTime))
+			dispatch(getUser(userId))
 		}
 
 		tryLogin()

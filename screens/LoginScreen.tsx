@@ -1,37 +1,26 @@
-import React, { FC, useState } from 'react'
-import {
-	ActivityIndicator,
-	Alert,
-	Button,
-	Image,
-	StyleSheet,
-	Text,
-	TextInput,
-	TouchableOpacity,
-	View,
-} from 'react-native'
-import { useDispatch } from 'react-redux'
+import React from 'react'
+import { Image, StyleSheet, View } from 'react-native'
 import AuthFooter from '../components/AuthFooter/AuthFooter'
 import HeadingContainer from '../components/HeadingsContainer/HeadingsContainer'
-import Input from '../components/Input/Input'
 import LoginForm from '../components/LoginForm/LoginForm'
-import { login } from '../store/auth/authActions'
-import AuthInterface from '../types/AuthInterface'
+import { NavigationScreenComponent, ScrollView } from 'react-navigation'
 
-const LoginScreen: FC = ({ navigation }) => {
+const LoginScreen: NavigationScreenComponent<{}> = ({ navigation }) => {
 	return (
 		<View style={styles.main}>
-			<Image
-				style={{ width: 250, height: 40, alignSelf: 'center' }}
-				source={require('../assets/kollexlogo.png')}
-			/>
-			<HeadingContainer heading1="Welcome," heading2="Sign in to continue!" />
-			<LoginForm navigation={navigation} />
-			<AuthFooter
-				text="I am a new user,"
-				linkText="Signup"
-				onPress={() => navigation.navigate('Signup')}
-			/>
+			<ScrollView showsVerticalScrollIndicator={false}>
+				<Image
+					style={{ width: 250, height: 40, alignSelf: 'center' }}
+					source={require('../assets/kollexlogo.png')}
+				/>
+				<HeadingContainer heading1="Welcome," heading2="Sign in to continue!" />
+				<LoginForm navigation={navigation} />
+				<AuthFooter
+					text="I am a new user,"
+					linkText="Signup"
+					onPress={() => navigation.navigate('Signup')}
+				/>
+			</ScrollView>
 		</View>
 	)
 }

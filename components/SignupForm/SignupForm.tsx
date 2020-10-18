@@ -2,11 +2,9 @@ import React, { FC, useCallback, useReducer, useState } from 'react'
 import {
 	ActivityIndicator,
 	Alert,
-	Button,
+	KeyboardAvoidingView,
 	ScrollView,
 	StyleSheet,
-	Text,
-	TouchableOpacity,
 	View,
 } from 'react-native'
 import { useDispatch } from 'react-redux'
@@ -15,8 +13,7 @@ import StrengthPasswordBar from '../StrengthPasswordBar/StrengthPasswordBar'
 import { getPasswordStrengthScore } from '../../helpers/helpers'
 import { formReducer } from '../../reducers/FormReducer'
 import { INPUT_CHANGE } from '../../types/Actions'
-import { signUp } from '../../store/auth/authActions'
-import { createUser } from '../../store/user/userActions'
+import { signUpAndSave } from '../../store/auth/authActions'
 import SignupFormProps from './SignupFormProps'
 import Colors from '../../constants/Colors'
 import SubmitButton from '../SubmitButton/SubmitButton'
@@ -63,8 +60,9 @@ const SignupForm: FC<SignupFormProps> = ({ navigation }) => {
 			password,
 		} = signupState.inputValues
 		try {
-			await dispatch(signUp(email, password))
-			await dispatch(createUser(firstName, lastName, email, phoneNumber))
+			await dispatch(
+				signUpAndSave({ firstName, lastName, email, password, phoneNumber })
+			)
 			setIsLoading(false)
 			navigation.navigate('Home')
 		} catch (err) {
@@ -89,60 +87,69 @@ const SignupForm: FC<SignupFormProps> = ({ navigation }) => {
 	)
 
 	return (
-		<ScrollView>
-			<View style={styles.main}>
-				<Input
-					id="firstName"
-					label="First Name"
-					value={signupState.firstName}
-					onChangeHandler={handleInput}
-				/>
-				<Input
-					id="lastName"
-					label="Last Name"
-					value={signupState.lastName}
-					onChangeHandler={handleInput}
-				/>
-				<Input
-					id="email"
-					label="E-mail *"
-					value={signupState.email}
-					onChangeHandler={handleInput}
-					errorText="Please enter a valid email address."
-					required
-					email
-				/>
-				<Input
-					id="phoneNumber"
-					label="Phone Number *"
-					value={signupState.phoneNumber}
-					errorText="Please enter a valid phone number."
-					onChangeHandler={handleInput}
-					required
-					keyboardType="decimal-pad"
-				/>
-				<Input
-					id="password"
-					label="Password *"
-					value={signupState.password}
-					onChangeHandler={handleInput}
-					errorText="Please enter a valid password."
-					required
-					passwordCreation
-					secureTextEntry
-				/>
-				<StrengthPasswordBar score={scorePassword} />
-				{isLoading ? (
-					<ActivityIndicator size="small" color="blue" />
-				) : (
-					<SubmitButton onPressFunction={handleFormSubmit} label="Sign Up" />
-				)}
-			</View>
-		</ScrollView>
+		<KeyboardAvoidingView
+			behavior="padding"
+			keyboardVerticalOffset={30}
+			style={styles.screen}
+		>
+			<ScrollView>
+				<View style={styles.main}>
+					<Input
+						id="firstName"
+						label="First Name"
+						value={signupState.firstName}
+						onChangeHandler={handleInput}
+					/>
+					<Input
+						id="lastName"
+						label="Last Name"
+						value={signupState.lastName}
+						onChangeHandler={handleInput}
+					/>
+					<Input
+						id="email"
+						label="E-mail *"
+						value={signupState.email}
+						onChangeHandler={handleInput}
+						errorText="Please enter a valid email address."
+						required
+						email
+					/>
+					<Input
+						id="phoneNumber"
+						label="Phone Number *"
+						value={signupState.phoneNumber}
+						errorText="Please enter a valid phone number."
+						onChangeHandler={handleInput}
+						required
+						keyboardType="decimal-pad"
+					/>
+					<Input
+						id="password"
+						label="Password *"
+						value={signupState.password}
+						onChangeHandler={handleInput}
+						errorText="Please enter a strong password."
+						required
+						passwordCreation
+						secureTextEntry
+					/>
+					<StrengthPasswordBar score={scorePassword} />
+					{isLoading ? (
+						<ActivityIndicator size="small" color="blue" />
+					) : (
+						<SubmitButton onPressFunction={handleFormSubmit} label="Sign Up" />
+					)}
+				</View>
+			</ScrollView>
+		</KeyboardAvoidingView>
 	)
 }
 
 const styles = StyleSheet.create({
+	screen: {
+		flex: 1,
+	},
 	main: {
 		flex: 1,
 		justifyContent: 'center',
