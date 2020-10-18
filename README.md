@@ -18,4 +18,4 @@ Password strength is controlled through `zxcvbn`.
 
 ![alt text](https://github.com/feraraujofilho/KollexAuthenticationApp/blob/master/assets/kollex_login.png?raw=true)
 
-![alt text](https://github.com/feraraujofilho/KollexAuthenticationApp/blob/master/assets/PlanningApp.png?raw=true)
+![alt text](https://github.com/feraraujofilho/KollexAuthenticationApp/blob/master/assets/PlanningApp.jpg?raw=true)
