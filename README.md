@@ -14,4 +14,10 @@ Users can signup, login and logout. User data is persisted on AsyncStorage and u
 
 Password strength is controlled through `zxcvbn`.
 
+## Visual and Planning
+
+
+
 ![alt text](https://github.com/feraraujofilho/KollexAuthenticationApp/blob/master/assets/kollex_login.png?raw=true)
+
+![alt text](https://github.com/feraraujofilho/KollexAuthenticationApp/blob/master/assets/planningApp.png?raw=true)
